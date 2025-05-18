@@ -1,0 +1,32 @@
+# Ambiente virtual (caso esteja dentro do projeto)
+venv/
+.env/
+
+# Cache do Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Arquivo de versão do pyenv
+.python-version
+
+# Arquivos do VS Code
+.vscode/
+
+# Arquivos temporários do vim
+*.swp
+*.swo
+*.swn
+*~
+
+# Logs e arquivos temporários
+*.log
+*.tmp
+
+# Bytecode compilado
+*.pyc
+*.pyd
+
+# gunicorn PID file (caso usado)
+gunicorn.pid
+
