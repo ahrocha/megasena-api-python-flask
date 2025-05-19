@@ -1,2 +1,2 @@
-gunicorn -w 4 'run:app'
+gunicorn -w 4 run:app
 
