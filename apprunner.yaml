@@ -5,4 +5,5 @@ run:
     - pipenv install
     - pip3 install -r requirements.txt
     - pip3 install gunicorn
+    - pip3 install flask
   command: pipenv run gunicorn -w 4 run:app
