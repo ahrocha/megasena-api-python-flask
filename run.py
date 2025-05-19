@@ -22,8 +22,54 @@ def hello_world():
 @app.route("/healthcheck/db")
 def healthcheck_db():
     try:
-        # Executa uma query simples
         db.session.execute(text("SELECT 1"))
         return jsonify({"status": "ok", "message": "Database connection successful"}), 200
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
+
+@app.route("/megasena/ultima")
+def get_ultima_sorteio():
+    try:
+        result = db.session.execute(text("SELECT numero, data, sorteados FROM megasena ORDER BY numero DESC LIMIT 1"))
+        row = result.fetchone()
+
+        if row:
+            numero, data, sorteados = row
+            response = {
+                "numero": numero,
+                "data": data.isoformat() if hasattr(data, "isoformat") else data,
+                "sorteados": sorteados,
+                "next": None,
+                "previous": numero - 1
+            }
+            return jsonify(response)
+        else:
+            return jsonify({"error": "Nenhum sorteio encontrado"}), 404
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/megasena/<int:numero>")
+def get_sorteio_by_numero(numero):
+    try:
+        result = db.session.execute(
+            text("SELECT numero, data, sorteados FROM megasena WHERE numero = :numero"),
+            {"numero": numero}
+        )
+        row = result.fetchone()
+
+        if row:
+            numero, data, sorteados = row
+            response = {
+                "numero": numero,
+                "data": data.isoformat() if hasattr(data, "isoformat") else data,
+                "sorteados": sorteados,
+                "next": numero + 1,
+                "previous": numero - 1
+            }
+            return jsonify(response)
+        else:
+            return jsonify({"error": "Sorteio não encontrado"}), 404
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
