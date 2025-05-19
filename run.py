@@ -30,7 +30,7 @@ def healthcheck_db():
 @app.route("/megasena/ultima")
 def get_ultima_sorteio():
     try:
-        result = db.session.execute(text("SELECT numero, data, sorteados FROM megasena ORDER BY numero DESC LIMIT 1"))
+        result = db.session.execute(text("SELECT numero, data, sorteados FROM sorteio ORDER BY numero DESC LIMIT 1"))
         row = result.fetchone()
 
         if row:
@@ -53,7 +53,7 @@ def get_ultima_sorteio():
 def get_sorteio_by_numero(numero):
     try:
         result = db.session.execute(
-            text("SELECT numero, data, sorteados FROM megasena WHERE numero = :numero"),
+            text("SELECT numero, data, sorteados FROM sorteio WHERE numero = :numero"),
             {"numero": numero}
         )
         row = result.fetchone()
