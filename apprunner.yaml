@@ -1,3 +1,16 @@
+version: 1.0
+
+build:
+  commands:
+    build:
+      - pip install pipenv
+      - pipenv install
+      - pip install -r requirements.txt
+      - pip install gunicorn
+      - pip install flask
+      - pwd
+      - ls
+
 run:
   runtime-version: 3.11
   pre-run:
